@@ -22,7 +22,7 @@ errorInfo.innerText =
   "Wystąpił błąd podczas pobierania danych. Spróbuj ponownie później.";
 
 getCurrencyList.addEventListener("click", () => {
-  const apiURL = "https://api.frankfurter.app/latest";
+  const apiURL = "https://api.frankfurter.app/latest?base=PLN";
   fetch(apiURL)
     .then((response) => response.json())
     .then((data) => {
@@ -45,14 +45,15 @@ getCurrencyList.addEventListener("click", () => {
         }
         container.appendChild(select);
 
-        const rateInfo = document.createElement("p");
+        const rateInfo = document.createElement("h1");
         rateInfo.id = "rate-info";
+        rateInfo.setAttribute("data-test", "currency-value");
         container.appendChild(rateInfo);
 
         select.addEventListener("change", (event) => {
           const selectedCurrency = event.target.value;
           const selectedRate = rates[selectedCurrency];
-          rateInfo.innerText = `1 EUR kosztuje ${selectedRate} ${selectedCurrency}.`;
+          rateInfo.innerText = `1 PLN kosztuje ${selectedRate} ${selectedCurrency}.`;
         });
       } else {
         container.appendChild(errorInfo);
