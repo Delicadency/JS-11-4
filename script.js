@@ -16,24 +16,26 @@ const createButton = () => {
   container.appendChild(button);
   return button;
 };
+let currencies = {};
 const getCurrencyList = createButton();
 const errorInfo = document.createElement("p");
-errorInfo.innerText =
-  "Wystąpił błąd podczas pobierania danych. Spróbuj ponownie później.";
+errorInfo.innerText = "Wystąpił błąd podczas pobierania danych. Spróbuj ponownie później.";
 
 getCurrencyList.addEventListener("click", () => {
-  const apiURL = "https://api.frankfurter.app/latest?base=PLN";
+  const apiURL = "https://api.frankfurter.app/latest?from=PLN";
   fetch(apiURL)
     .then((response) => response.json())
     .then((data) => {
       const rates = data?.rates;
       if (rates) {
+        currencies = rates;
         getCurrencyList.disabled = true;
         const label = document.createElement("label");
         label.setAttribute("for", "currency-select");
         label.innerText = "Wybierz walutę";
         label.classList.add("margin");
         container.appendChild(label);
+        
         const select = document.createElement("select");
         select.id = "currency-select";
         for (const [currency] of Object.entries(rates)) {
